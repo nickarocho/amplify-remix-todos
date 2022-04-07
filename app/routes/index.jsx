@@ -1,39 +1,34 @@
 import { withSSRContext } from 'aws-amplify'
 import { json, useLoaderData, useSubmit } from 'remix'
-import { listTasks } from '../../src/graphql/queries'
-import { withAuthenticator, Heading, Button, Text } from '@aws-amplify/ui-react'
+import { Heading, Button, Text } from '@aws-amplify/ui-react'
+import { Task } from '../../src/models'
+import { serializeModel } from '@aws-amplify/datastore/ssr'
 
 import CreateTask from '../components/CreateTask'
-import Task from '../components/Task'
+import TaskDisplay from '../components/Task'
 
 export const loader = async ({ request }) => {
   const SSR = withSSRContext(request)
-  console.log(listTasks)
-  const tasks = await SSR.API.graphql({
-    query: listTasks
-  })
+  const tasks = await SSR.DataStore.query(Task)
   console.log(tasks)
 
-  return json({})
+  return json(serializeModel(tasks))
 }
 
 function Index ({ signOut, user }) {
   const submit = useSubmit()
-  // const { tasks } = useLoaderData()
+  const tasks = useLoaderData()
 
   return (
     <div style={{ maxWidth: '60%', margin: '0 auto' }}>
       {/* <img src={logo} /> */}
       <Heading level={1} textAlign='center'>To Do</Heading>
-      <Text textAlign='center'>Hi, {user.attributes.email}
-        <Button size='small' variation='link' onClick={() => signOut()}>Log Out</Button>
-      </Text>
       <ul>
-        {/* {tasks.map(task => <Task submit={submit} key={task.id} task={task} />)} */}
+        {tasks.map(task => <TaskDisplay submit={submit} key={task.id} task={task} />)}
       </ul>
       <CreateTask />
     </div>
   )
 }
 
-export default withAuthenticator(Index)
+export default Index
