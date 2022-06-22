@@ -4,37 +4,39 @@ import {
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration
-} from 'remix'
+  ScrollRestoration,
+} from "remix";
 
-import { Amplify } from 'aws-amplify'
-import config from '../src/aws-exports'
-import styles from '@aws-amplify/ui-react/styles.css'
+import { Amplify } from "aws-amplify";
+import config from "../src/aws-exports";
+import styles from "@aws-amplify/ui-react/styles.css";
 
-import { AmplifyProvider } from '@aws-amplify/ui-react'
+import { AmplifyProvider } from "@aws-amplify/ui-react";
 
-Amplify.configure({ ...config, ssr: true })
+Amplify.configure({ ...config, ssr: true });
 
-export function links () {
+Amplify.Logger.LOG_LEVEL = "DEBUG";
+
+export function links() {
   return [
     {
-      rel: 'stylesheet',
-      href: styles
-    }
-  ]
+      rel: "stylesheet",
+      href: styles,
+    },
+  ];
 }
 
-export function meta () {
+export function meta() {
   return {
-    charset: 'utf-8',
-    title: 'Amplify To Dos',
-    viewport: 'width=device-width,initial-scale=1'
-  }
+    charset: "utf-8",
+    title: "Amplify To Dos",
+    viewport: "width=device-width,initial-scale=1",
+  };
 }
 
-export default function App () {
+export default function App() {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
         <Meta />
         <Links />
@@ -48,5 +50,5 @@ export default function App () {
         </AmplifyProvider>
       </body>
     </html>
-  )
+  );
 }

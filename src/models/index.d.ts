@@ -10,9 +10,9 @@ type TaskMetaData = {
 
 export declare class Task {
   readonly id: string;
-  readonly done?: boolean | null;
-  readonly name?: string | null;
+  readonly done: boolean;
   readonly dueDate?: string | null;
+  readonly name: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   constructor(init: ModelInit<Task, TaskMetaData>);

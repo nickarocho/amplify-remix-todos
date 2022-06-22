@@ -1,6 +1,5 @@
-type Task @model @auth(rules: [{allow: public}]) {
-  id: ID!
-  done: Boolean
-  name: String
+type Task @model @auth(rules: [{ allow: owner }]) {
+  done: Boolean!
   dueDate: AWSDateTime
+  name: String!
 }
