@@ -1,13 +1,13 @@
 export type AmplifyDependentResourcesAttributes = {
     "api": {
-        "todolistclone": {
+        "amplifyremixtodo": {
             "GraphQLAPIKeyOutput": "string",
             "GraphQLAPIIdOutput": "string",
             "GraphQLAPIEndpointOutput": "string"
         }
     },
     "auth": {
-        "todolistclone": {
+        "amplifyremixtodo37371528": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",

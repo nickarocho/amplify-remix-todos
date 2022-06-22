@@ -1,10 +1,10 @@
 {
-  "AppSyncApiName": "todolistclone",
+  "AppSyncApiName": "amplifyremixtodo",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
-      "authtodolistclone",
+      "authamplifyremixtodo37371528",
       "Outputs.UserPoolId"
     ]
   }

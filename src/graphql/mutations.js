@@ -13,6 +13,9 @@ export const createTask = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }
@@ -29,6 +32,9 @@ export const updateTask = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }
@@ -45,6 +51,9 @@ export const deleteTask = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }

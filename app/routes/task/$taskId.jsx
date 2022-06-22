@@ -1,24 +1,15 @@
-import { redirect } from 'remix'
-import { withSSRContext } from 'aws-amplify'
-import { updateTask } from '../../../src/graphql/mutations'
-import { getTask } from '../../../src/graphql/queries'
+import { redirect } from "remix";
+import { DataStore } from "aws-amplify";
+import { Task } from "../../../src/models";
 
-export async function action ({ params, request }) {
-  const SSR = withSSRContext(request)
+export async function action({ params, request }) {
+  const taskToUpdate = await DataStore.query(Task, params.taskId);
 
-  const task = await SSR.API.graphql({
-    query: getTask,
-    variables: { id: params.taskId }
-  })
+  await DataStore.save(
+    Task.copyOf(taskToUpdate, (updated) => {
+      updated.done = !updated.done;
+    })
+  );
 
-  await SSR.API.graphql({
-    query: updateTask,
-    variables: {
-      input: {
-        id: params.taskId,
-        done: !task.data.getTask.done
-      }
-    }
-  })
-  return redirect('/')
+  return redirect("/");
 }

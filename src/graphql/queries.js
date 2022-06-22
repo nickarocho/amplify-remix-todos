@@ -10,6 +10,9 @@ export const getTask = /* GraphQL */ `
       id
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       owner
     }
   }
@@ -28,9 +31,43 @@ export const listTasks = /* GraphQL */ `
         id
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         owner
       }
       nextToken
+      startedAt
+    }
+  }
+`;
+export const syncTasks = /* GraphQL */ `
+  query SyncTasks(
+    $filter: ModelTaskFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTasks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        done
+        dueDate
+        name
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      nextToken
+      startedAt
     }
   }
 `;
