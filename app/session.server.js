@@ -15,7 +15,7 @@ export const sessionStorage = createCookieSessionStorage({
 const USER_SESSION_KEY = "userId";
 
 export async function getSession(request) {
-  const cookie = request?.headers?.get("Cookie");
+  const cookie = request?.headers?.get("cookie"); // CognitoIdentityServiceProvider.xxxxxxx.xxxxxxxx
   return sessionStorage.getSession(cookie);
 }
 
@@ -28,7 +28,7 @@ export async function getUserSessionInfo(request) {
 export async function requireSession(request, redirectTo) {
   const session = await getUserSessionInfo(request);
 
-  // missing validation token!!
+  // missing session tokens!!
   if (!session && redirectTo) {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
     throw redirect(`/login?${searchParams}`);
@@ -42,7 +42,7 @@ export async function createUserSession({ request, userInfo, redirectTo }) {
   session.set(
     USER_SESSION_KEY,
     userInfo
-    // TODO: this is super weak... can literally pass nothing as the token values and it still works.
+    // TODO: this is super weak... we can pass anything (or nothing) as the token values and it will still work
     //  i.e.:
     // userInfo: {
     //   accessToken: "",
