@@ -1,7 +1,7 @@
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { Auth } from "aws-amplify";
 import { Heading } from "@aws-amplify/ui-react";
-import { logout, requireUserId } from "../session.server";
+import { logout, requireSession } from "../session.server";
 import { useEffect, useState } from "react";
 import { json } from "@remix-run/node";
 
@@ -11,8 +11,8 @@ import TaskDisplay from "../components/Task";
 import CreateTask from "../components/CreateTask";
 
 export async function loader({ request }) {
-  const response = await requireUserId(request, "/login");
-  const { accessToken, idToken } = response || {};
+  const sessionInfo = await requireSession(request, "/login");
+  const { accessToken, idToken } = sessionInfo || {};
 
   // TODO: fetch actual tasks
   const tasks = [
@@ -62,17 +62,15 @@ export default function PrivatePage() {
       <Heading level={3} textAlign="center">
         Private Page
       </Heading>
-      <h3>
-        {user && `Logged in with authenticated user ${user?.attributes?.email}`}{" "}
-      </h3>
+      <h3>Logged in with authenticated user {user?.attributes?.email}</h3>
       <button
         className="ui button"
         type="button"
         onClick={async () => {
-          // amplify sign out
-          // await Auth.signOut({ global: true });
+          // Amplify sign out - removes JWT's from local storage
+          await Auth.signOut({ global: true });
 
-          // clear out our session cookie...
+          // clear out the internally-set Remix session cookie
           fetcher.submit({}, { method: "post" });
         }}
       >

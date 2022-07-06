@@ -25,36 +25,35 @@ export const action = async ({ request }) => {
 
 export function Login() {
   const [user, setUser] = useState(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("nicaroch+123@amazon.com");
+  const [password, setPassword] = useState("password");
   const [serverMessage, setServerMessage] = useState("");
 
   const fetcher = useFetcher();
 
-  const setUserSessionInfo = useCallback(
-    (accessToken, idToken) => {
-      if (!accessToken || !idToken) {
-        console.error("oh noooooooo");
-        return;
-      }
+  const setUserSessionInfo = useCallback(async () => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
 
       if (fetcher.type === "init") {
         // if we have an authenticated user, submit the tokens to the
         // `action` function to set up the cookies for server
         // authentication
 
-        // TODO: this is really weak... can pass any string and it still works when loggin in
+        // TODO: this is really weak... can pass any string as values and it still works
         fetcher.submit(
           {
-            accessToken: "accessToken.jwtToken",
-            idToken: "idToken.jwtToken",
+            accessToken: currentUser.signInUserSession.accessToken.jwtToken,
+            idToken: currentUser.signInUserSession.idToken.jwtToken,
           },
           { method: "post" }
         );
       }
-    },
-    [fetcher]
-  );
+    } catch (err) {
+      console.warn("setUserSessionInfo error: ", err);
+    }
+  }, [fetcher]);
 
   async function signIn() {
     try {
@@ -102,19 +101,9 @@ export function Login() {
     }
   }
 
-  const getUser = async () => {
-    try {
-      const result = await Auth.currentAuthenticatedUser();
-      setUser(result);
-    } catch (err) {
-      console.warn("getUser error: ", err);
-    }
-  };
-
   // listening for when we have a user object...
   useEffect(() => {
-    // getUser();
-    // setUserSessionInfo(user);
+    setUserSessionInfo(user);
   }, []);
 
   return (
@@ -124,11 +113,13 @@ export function Login() {
         <input
           type="text"
           placeholder="Email"
+          value="nicaroch+123@amazonc.om"
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
+          value="password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit" onClick={signIn}>

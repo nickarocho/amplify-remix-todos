@@ -1,10 +1,10 @@
 import { redirect } from "@remix-run/node";
-import { requireUserId } from "../session.server";
+import { requireSession } from "../session.server";
 
 // check for authenticated user, if not redirect to login
 export async function loader({ request }) {
   try {
-    await requireUserId(request, "/login");
+    await requireSession(request, "/login");
   } catch (err) {
     console.error("index.tsx loader error: ", err);
   }

@@ -3,7 +3,6 @@ import { withSSRContext } from "aws-amplify";
 import { createTask } from "../../src/graphql/mutations";
 
 export async function action({ request }) {
-  console.log({ request });
   try {
     // const body = await request.formData();
     // const SSR = withSSRContext({ request });
