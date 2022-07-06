@@ -15,8 +15,6 @@ import { AmplifyProvider } from "@aws-amplify/ui-react";
 
 Amplify.configure({ ...config, ssr: true });
 
-Amplify.Logger.LOG_LEVEL = "DEBUG";
-
 export function links() {
   return [
     {

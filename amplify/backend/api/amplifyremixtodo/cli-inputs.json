@@ -5,18 +5,18 @@
     "serviceName": "AppSync",
     "gqlSchemaPath": "/Users/nicaroch/code/scratch/bug-repro/amplify-remix-todos/amplify/backend/api/amplifyremixtodo/schema.graphql",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 365,
-      "apiKeyExpirationDate": "2023-06-21T22:22:56.464Z",
-      "keyDescription": "remixbug"
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authamplifyremixtodo37371528"
     },
     "additionalAuthTypes": [
       {
-        "mode": "AWS_IAM"
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-06-30T21:55:17.021Z",
+        "keyDescription": "remixxxx"
       },
       {
-        "mode": "AMAZON_COGNITO_USER_POOLS",
-        "cognitoUserPoolId": "authamplifyremixtodo37371528"
+        "mode": "AWS_IAM"
       }
     ],
     "conflictResolution": {

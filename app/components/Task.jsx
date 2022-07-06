@@ -14,7 +14,7 @@ export default function Task({ task, submit }) {
           onChange={async (e) => {
             submit(e.currentTarget.form);
           }}
-          label={task.name}
+          label={task.description}
         />
       </Form>
     </li>
