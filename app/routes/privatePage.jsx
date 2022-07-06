@@ -44,6 +44,14 @@ export default function PrivatePage() {
 
   const submit = useSubmit();
 
+  const signOut = async () => {
+    // Amplify sign out - removes JWT's from local storage
+    await Auth.signOut();
+
+    // clear out the internally-set Remix session cookie
+    fetcher.submit({}, { method: "post" });
+  };
+
   const fetchUser = async () => {
     try {
       const user = await Auth.currentAuthenticatedUser();
@@ -63,17 +71,7 @@ export default function PrivatePage() {
         Private Page
       </Heading>
       <h3>Logged in with authenticated user {user?.attributes?.email}</h3>
-      <button
-        className="ui button"
-        type="button"
-        onClick={async () => {
-          // Amplify sign out - removes JWT's from local storage
-          await Auth.signOut({ global: true });
-
-          // clear out the internally-set Remix session cookie
-          fetcher.submit({}, { method: "post" });
-        }}
-      >
+      <button className="ui button" type="button" onClick={signOut}>
         Log Out
       </button>
       <div className="ui segment">
