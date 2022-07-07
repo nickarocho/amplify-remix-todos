@@ -1,5 +1,5 @@
 import { redirect, useSubmit, Form, json, useLoaderData } from "remix";
-import { destroySession, getSession } from "../session.server";
+import { commitSession, destroySession, getSession } from "../session.server";
 
 import { Auth } from "aws-amplify";
 import { Heading } from "@aws-amplify/ui-react";
@@ -8,16 +8,22 @@ import TaskDisplay from "../components/Task";
 import CreateTask from "../components/CreateTask";
 
 export async function loader({ request }) {
-  // TODO: fetch actual tasks
-  const tasks = [
-    { id: "123", description: "hmm..." },
-    { id: "456", description: "kay..." },
-    { id: "789", description: "ugh..." },
-  ];
+  // the following code is how we protect the pages to be viewable only by logged in users
+  const session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("access_token")) {
+    return redirect("/auth/login");
+  }
 
-  return json({
-    tasks: tasks,
-  });
+  // the user is logged in, so fetch the data and any relevant errors
+  const data = { error: session.get("error") };
+  return (
+    json(data, {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }),
+    getTasks()
+  );
 }
 
 /**
@@ -36,6 +42,16 @@ export const action = async ({ request }) => {
   }
 
   return redirect("/auth/login");
+};
+
+const getTasks = () => {
+  // TODO: fetch actual tasks
+  const tasks = [
+    { id: "123", description: "task 1..." },
+    { id: "456", description: "task 2..." },
+    { id: "789", description: "task 3..." },
+  ];
+  return tasks;
 };
 
 export default function PrivatePage() {
