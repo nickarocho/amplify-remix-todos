@@ -27,7 +27,7 @@ export function links() {
 export function meta() {
   return {
     charset: "utf-8",
-    title: "Amplify To Dos",
+    title: "Remix/Amplify Todos",
     viewport: "width=device-width,initial-scale=1",
   };
 }

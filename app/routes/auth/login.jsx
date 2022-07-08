@@ -22,7 +22,7 @@ export async function loader({ request }) {
 }
 
 // our action function will be launched when the submit button is clicked
-// this will sign in our Amplify user and create our session and cookie using user.getIDToken()
+// this will sign in our Amplify user and create our session and cookie
 export const action = async ({ request }) => {
   let error;
   let amplifyUser;
@@ -36,9 +36,9 @@ export const action = async ({ request }) => {
     const user = await Auth.signIn(email, password);
     amplifyUser = user;
 
-    // if signin was successful then we have a user
+    // if signin was successful, redirect to the `privatePage`
     if (amplifyUser) {
-      // setup the session and cookie wth users idToken
+      // setup the session and cookie wth user's access_token
       let session = await getSession(request.headers.get("Cookie"));
 
       // check for the temp user cookie set during signUp, and unset if it's there
@@ -50,7 +50,7 @@ export const action = async ({ request }) => {
 
       session.set("access_token", amplifyUser.signInUserSession.idToken);
 
-      // send the user to the main page after login
+      // persist the mutated session, and redirect
       return redirect("/privatePage", {
         headers: {
           "Set-Cookie": await commitSession(session),
@@ -62,7 +62,7 @@ export const action = async ({ request }) => {
     console.error("[SERVER] signIn error: ", err);
   }
 
-  return { amplifyUser, error };
+  return { error };
 };
 
 export function Login() {

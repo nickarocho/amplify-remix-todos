@@ -2,9 +2,8 @@ import { createCookieSessionStorage } from "@remix-run/node";
 
 const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
-    // a Cookie from `createCookie` or the CookieOptions to create one
     cookie: {
-      // amplify token
+      // amplify auth token
       name: "amplify:token",
 
       // all of these are optional
