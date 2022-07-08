@@ -64,14 +64,16 @@ export default function PrivatePage() {
       <Heading level={3} textAlign="center">
         Private Page
       </Heading>
-      <h3>Logged in with authenticated user {/* TODO */}</h3>
+      <h3>
+        Logged in with authenticated user {/* TODO: fetch the logged in user */}
+      </h3>
       <Form method="post">
         <button className="ui button" type="submit">
           Log Out
         </button>
       </Form>
       <div className="ui segment">
-        <h4>Data Loaded From Amplify</h4>
+        <h4>Tasks</h4>
         <div className="ui list divided large relaxed">
           {tasks?.map((t) => {
             return <TaskDisplay submit={submit} key={t.id} task={t} />;
